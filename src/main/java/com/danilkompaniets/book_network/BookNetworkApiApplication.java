@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.logging.Logger;
 
-@EnableJpaAuditing
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAsync
 @SpringBootApplication(scanBasePackages = "com.danilkompaniets")
 
