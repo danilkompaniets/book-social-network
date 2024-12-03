@@ -7,13 +7,6 @@ import java.util.Objects;
 
 @Service
 public class FeedbackMapper {
-
-    private final FeedbackService feedbackService;
-
-    public FeedbackMapper(FeedbackService feedbackService) {
-        this.feedbackService = feedbackService;
-    }
-
     public Feedback toFeedback(FeedbackRequest request) {
         return Feedback.builder()
                 .note(request.note())
