@@ -43,7 +43,7 @@ public class AuthenticationService {
                 .firstname(request.getFirstname())
                 .email(request.getEmail())
                 .lastname(request.getLastname())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .accountLocked(false)
                 .enabled(false)
                 .roles(List.of(userRole))
@@ -84,13 +84,14 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        System.out.println(request.getEmail() + " " + request.getPassword());
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
-
         );
+        System.out.println(auth.isAuthenticated());
 
         var claims = new HashMap<String, Object>();
         var user = (User) auth.getPrincipal();
@@ -102,6 +103,7 @@ public class AuthenticationService {
 
     @Transactional
     public void activateAccount(String token) throws MessagingException {
+        System.out.println(token);
         Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid token"));
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
