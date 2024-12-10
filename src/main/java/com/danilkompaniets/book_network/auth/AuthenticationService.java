@@ -10,7 +10,6 @@ import com.danilkompaniets.book_network.user.User;
 import com.danilkompaniets.book_network.user.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +34,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     @Value("${application.security.mailing.frontend.activation-url}")
     private String activationUrl;
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")

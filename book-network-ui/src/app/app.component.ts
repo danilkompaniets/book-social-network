@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'book-network-ui';
