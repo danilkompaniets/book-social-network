@@ -41,8 +41,10 @@ public class BookService {
     }
 
     public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
+        System.out.println("Connected user: " + connectedUser.getName());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, connectedUser.getName());
+        User user = ((User) connectedUser.getPrincipal());
+        Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, String.valueOf(user.getId()));
         List<BookResponse> booksResponse = books.stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
