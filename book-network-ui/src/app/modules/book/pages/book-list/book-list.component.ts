@@ -5,11 +5,13 @@ import {PageResponseBookResponse} from '../../../../services/models/page-respons
 import {NgForOf} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {HttpTokenInterceptor} from '../../../../services/interceptors/http-token.interceptor';
+import {BookCardComponent} from '../../components/book-card/book-card.component';
 
 @Component({
   selector: 'app-book-list',
   imports: [
     NgForOf,
+    BookCardComponent
   ],
   providers: [
     HttpClient,
