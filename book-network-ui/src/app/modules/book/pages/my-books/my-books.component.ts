@@ -1,33 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
-import {BookService} from '../../../../services/services/book.service';
-import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
-import {NgForOf, NgIf} from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
-import {HttpTokenInterceptor} from '../../../../services/interceptors/http-token.interceptor';
 import {BookCardComponent} from '../../components/book-card/book-card.component';
+import {NgForOf, NgIf} from '@angular/common';
+import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
+import {BookService} from '../../../../services/services/book.service';
 import {BookResponse} from '../../../../services/models/book-response';
+import {RouterLink} from '@angular/router';
 
 @Component({
-  selector: 'app-book-list',
+  selector: 'app-my-books',
   imports: [
-    NgForOf,
     BookCardComponent,
-    NgIf
+    NgForOf,
+    NgIf,
+    RouterLink
   ],
-  providers: [
-    HttpClient,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpTokenInterceptor,
-      multi: true,
-    }
-  ],
-  templateUrl: './book-list.component.html',
+  templateUrl: './my-books.component.html',
   standalone: true,
-  styleUrl: './book-list.component.scss'
+  styleUrl: './my-books.component.scss'
 })
-export class BookListComponent implements OnInit {
+export class MyBooksComponent implements OnInit {
   bookResponse: PageResponseBookResponse = {}
   message: string = "";
   level: string = "success"
@@ -38,7 +29,7 @@ export class BookListComponent implements OnInit {
     return this.page === this.bookResponse.totalPages as number - 1;
   }
 
-  constructor(private bookService: BookService, private router: Router) {
+  constructor(private bookService: BookService) {
   }
 
   ngOnInit(): void {
@@ -46,7 +37,7 @@ export class BookListComponent implements OnInit {
   }
 
   private findAllBooks() {
-    this.bookService.findAllBooks({
+    this.bookService.findAllBooksByOwner({
       page: this.page, size: this.size
     }).subscribe({
       next: (books) => {
@@ -60,7 +51,7 @@ export class BookListComponent implements OnInit {
     this.bookService.borrowBook({
       "book-id": book.id as number,
     }).subscribe({
-      next: (book) => {
+      next: () => {
         this.level = "success"
         this.message = "book successfully added to your waiting list"
       },
@@ -94,5 +85,17 @@ export class BookListComponent implements OnInit {
   goToLastPage() {
     this.page = this.bookResponse.totalPages as number - 1;
     this.findAllBooks()
+  }
+
+  shareBook(book: BookResponse) {
+
+  }
+
+  editBook(book: BookResponse) {
+
+  }
+
+  archiveBook(book: BookResponse) {
+
   }
 }

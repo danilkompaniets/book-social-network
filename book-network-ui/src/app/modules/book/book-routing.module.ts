@@ -4,6 +4,8 @@ import {MainComponent} from './pages/main/main.component';
 import {BookListComponent} from './pages/book-list/book-list.component';
 import {HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http';
 import {HttpTokenInterceptor} from '../../services/interceptors/http-token.interceptor';
+import {MyBooksComponent} from './pages/my-books/my-books.component';
+import {ManageBookComponent} from './pages/manage-book/manage-book.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,14 @@ const routes: Routes = [
       {
         path: "",
         component: BookListComponent
+      },
+      {
+        path: "my-books",
+        component: MyBooksComponent
+      },
+      {
+        path: "manage/:bookId",
+        component: ManageBookComponent
       }
     ]
   }
