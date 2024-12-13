@@ -45,6 +45,7 @@ export class BorrowedBookListComponent implements OnInit {
 
   returnBorrowedBook(book: BorrowedBookResponse) {
     this.selectedBook = book
+    this.feedbackRequest.bookId = book.id as number;
   }
 
   private findAllBorrowedBooks() {
