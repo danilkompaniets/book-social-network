@@ -4,7 +4,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
 import {BookService} from '../../../../services/services/book.service';
 import {BookResponse} from '../../../../services/models/book-response';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-my-books',
@@ -29,7 +29,7 @@ export class MyBooksComponent implements OnInit {
     return this.page === this.bookResponse.totalPages as number - 1;
   }
 
-  constructor(private bookService: BookService) {
+  constructor(private bookService: BookService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -88,14 +88,24 @@ export class MyBooksComponent implements OnInit {
   }
 
   shareBook(book: BookResponse) {
-
+    this.bookService.updateShareableStatus({
+      "book-id": book.id as number,
+    }).subscribe({
+      next: () => {
+        book.sharable = !book.sharable;
+      }
+    })
   }
 
   editBook(book: BookResponse) {
-
+    this.router.navigate(['/books/manage', book.id]);
   }
 
   archiveBook(book: BookResponse) {
-
+    this.bookService.updateArchivedStatus({
+      "book-id": book.id as number,
+    }).subscribe({
+      next: () => book.archived = !book.archived
+    })
   }
 }
